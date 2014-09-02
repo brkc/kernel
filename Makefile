@@ -3,7 +3,10 @@ LD = ld
 CFLAGS = -g -m32 -ffreestanding -nostdlib
 LDFLAGS = -lgcc
 
-build: kernel.iso
+kernel.iso: multiboot.o kernel.o console.o
+	$(LD) -melf_i386 -Ttext=0x100000 -o boot/kernel kernel.o multiboot.o console.o
+	rm -f kernel.iso
+	grub-mkrescue -o kernel.iso .
 
 run:
 	qemu-system-x86_64 -cdrom kernel.iso
@@ -11,10 +14,6 @@ run:
 clean:
 	rm -f boot/kernel kernel.iso *.o
 
-kernel.iso: multiboot.o kernel.o
-	$(LD) -melf_i386 -Ttext=0x100000 -o boot/kernel kernel.o multiboot.o
-	rm -f kernel.iso
-	grub-mkrescue -o kernel.iso .
 
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) -c kernel.c $(LDFLAGS)
