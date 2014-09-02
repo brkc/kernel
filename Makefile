@@ -1,6 +1,6 @@
 CC = cc
 LD = ld
-CFLAGS = -m32 -ffreestanding -nostdlib
+CFLAGS = -g -m32 -ffreestanding -nostdlib
 LDFLAGS = -lgcc
 
 build: kernel.iso
