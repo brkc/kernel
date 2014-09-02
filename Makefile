@@ -11,6 +11,10 @@ kernel.iso: multiboot.o kernel.o console.o
 run:
 	qemu-system-x86_64 -cdrom kernel.iso
 
+debug:
+	qemu-system-x86_64 -s -S -cdrom kernel.iso &
+	gdb
+
 clean:
 	rm -f boot/kernel kernel.iso *.o
 
