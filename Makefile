@@ -16,7 +16,7 @@ kernel.iso: multiboot.o kernel.o
 	rm -f kernel.iso
 	grub-mkrescue -o kernel.iso .
 
-kernel.o:
+kernel.o: kernel.c
 	$(CC) $(CFLAGS) -c kernel.c $(LDFLAGS)
 
 multiboot.o: multiboot.s
