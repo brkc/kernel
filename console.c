@@ -7,7 +7,7 @@ void
 cursor_move(ushort offset)
 {
     outb(CRTPORT, 14);
-    outb(CRTPORT+1, offset << 8);
+    outb(CRTPORT+1, offset >> 8);
 
     outb(CRTPORT, 15);
     outb(CRTPORT+1, offset);
