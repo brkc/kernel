@@ -19,7 +19,7 @@ clean:
 	rm -f boot/kernel kernel.iso *.o
 
 .c.o:
-	$(CC) $(CFLAGS) -c kernel.c $< $(LDFLAGS)
+	$(CC) -c $(CFLAGS) kernel.c $< $(LDFLAGS)
 
 multiboot.o: multiboot.s
-	$(CC) $(CFLAGS) -c multiboot.s $(LDFLAGS)
+	$(CC) -c $(CFLAGS) multiboot.s $(LDFLAGS)
