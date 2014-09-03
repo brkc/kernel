@@ -18,6 +18,8 @@ debug:
 clean:
 	rm -f boot/kernel kernel.iso *.o
 
+console.o: console.c
+	$(CC) $(CFLAGS) -c console.c $(LDFLAGS)
 
 kernel.o: kernel.c
 	$(CC) $(CFLAGS) -c kernel.c $(LDFLAGS)
