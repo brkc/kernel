@@ -1,6 +1,27 @@
 #include "types.h"
 #include "x86.h"
 
+enum {
+    Black,
+    Blue,
+    Green,
+    Cyan,
+    Red,
+    Purple,
+    Yellow,
+    White,
+    Bright,
+    Blink = 0x80,
+};
+
+enum {
+    Background = Black,
+    Foreground = White,
+    Width = 80,
+    Height = 24,
+    Attr = (Background << 4 | Foreground) << 8,
+};
+
 #define CRTPORT 0x3d4
 
 void
@@ -33,7 +54,7 @@ putc(uchar c)
     ushort *video = (ushort *) 0xb8000;
     ushort offset = cursor_address();
 
-    video[offset] = c | 0x700;
+    video[offset] = c | Attr;
     cursor_move(offset + 1);
 }
 
