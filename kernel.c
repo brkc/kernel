@@ -4,10 +4,8 @@
 int
 cmain(void)
 {
-    char str[] = "hello, world";
-
     cursor_move(0);
-    puts(str);
-
+    printf("print some text -- ");
+    printf("cursor is at offset %d after print", cursor_address());
     return 0;
 }

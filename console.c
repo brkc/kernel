@@ -67,3 +67,52 @@ puts(const char *s)
     while (*s)
         putc(*s++);
 }
+
+int
+itoa(int val, char *str, int base)
+{
+    static char digits[] = "0123456789abcdef";
+    int k = 32, i, j;
+
+    do {
+        str[k--] = digits[val % base];
+        val /= base;
+    } while (val != 0);
+
+    i = 32-k;
+    j = 32;
+    str[i--] = '\0';
+    while (i >= 0)
+        str[i--] = str[j--];
+
+    return 0;
+}
+
+void
+printf(const char *fmt, ...)
+{
+    const char *p;
+    char buf[33];
+    uint *argp = (uint *) &fmt + 1;
+
+    for (p = fmt; *p; p++) {
+        if (*p != '%') {
+            putc(*p);
+            continue;
+        }
+        *p++;
+        switch (*p) {
+            case 'd':
+                itoa(*(int *) argp++, buf, 10);
+                puts((char *) buf);
+                break;
+            case 's':
+                puts(*(char **) argp++);
+                break;
+            default:
+                putc('%');
+                putc(*p);
+                break;
+        }
+    }
+}
