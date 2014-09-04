@@ -79,7 +79,7 @@ itoa(int val, char *str, int base)
         val /= base;
     } while (val != 0);
 
-    i = 32-k;
+    i = 32 - k;
     j = 32;
     str[i--] = '\0';
     while (i >= 0)
