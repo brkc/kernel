@@ -24,28 +24,31 @@ enum {
 
 #define CRTPORT 0x3d4
 
+uchar
+crt_read(uchar index)
+{
+    outb(CRTPORT, index);
+    return inb(CRTPORT + 1);
+}
+
+void
+crt_write(uchar index, uchar data)
+{
+    outb(CRTPORT, index);
+    outb(CRTPORT + 1, data);
+}
+
 void
 cursor_move(ushort offset)
 {
-    outb(CRTPORT, 14);
-    outb(CRTPORT+1, offset >> 8);
-
-    outb(CRTPORT, 15);
-    outb(CRTPORT+1, offset);
+    crt_write(14, offset >> 8);
+    crt_write(15, offset);
 }
 
 ushort
 cursor_address(void)
 {
-    ushort addr;
-
-    outb(CRTPORT, 14);
-    addr = inb(CRTPORT+1) << 8;
-
-    outb(CRTPORT, 15);
-    addr |= inb(CRTPORT+1);
-
-    return addr;
+    return crt_read(14) << 8 | crt_read(15);
 }
 
 void
