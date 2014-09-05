@@ -21,5 +21,5 @@ clean:
 .c.o:
 	$(CC) -c $(CFLAGS) $< $(LDFLAGS)
 
-.S.o:
-	$(CC) -c $(CFLAGS) $< $(LDFLAGS)
+multiboot.o: multiboot.s
+	$(CC) -c $(CFLAGS) multiboot.s $(LDFLAGS)
