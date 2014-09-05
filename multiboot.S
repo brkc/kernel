@@ -1,3 +1,5 @@
+#include "segdesc.h"
+
 .set STACK_SIZE, 0x1000
 .set ALIGN, 1 << 0
 .set MEMINFO, 1 << 1
@@ -23,5 +25,10 @@ hang:
 	cli
 	hlt
 	jmp hang
+
+gdt:
+    SEGDESC_NULL
+    SEGDESC(STA_X|STA_R, 0, 0xfffff)
+    SEGDESC(STA_W, 0, 0xfffff)
 
 .comm stack, STACK_SIZE
