@@ -109,6 +109,10 @@ printf(const char *fmt, ...)
             case 's':
                 puts(*(char **) argp++);
                 break;
+            case 'x':
+                itoa(*(int *) argp++, buf, 16);
+                puts((char *) buf);
+                break;
             default:
                 putc('%');
                 putc(*p);
