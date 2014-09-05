@@ -57,6 +57,10 @@ putc(u8 c)
     u16 *video = (u16 *) 0xb8000;
     u16 offset = cursor_address();
 
+    if (c == '\n') {
+        cursor_move((offset + 79) / 80 * 80);
+        return;
+    }
     video[offset] = c | Attr;
     cursor_move(offset + 1);
 }

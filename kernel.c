@@ -7,7 +7,7 @@ int
 cmain(void)
 {
     cursor_move(0);
-    printf("kernel loaded at 0x%x -- ", _start);
-    printf("cursor is at offset %d after print", cursor_address());
+    printf("kernel loaded at 0x%x\n", _start);
+    printf("ok\n");
     return 0;
 }
