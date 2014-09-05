@@ -73,18 +73,21 @@ puts(const char *s)
 }
 
 int
-itoa(int val, char *str, int base)
+itoa(int sval, char *str, int base)
 {
     static char digits[] = "0123456789abcdef";
-    int k = 32, i, j;
+    int i = 0, j = 32, k = 32;
+    unsigned int val = sval;
+
+    if (val < 0 && base == 10)
+        str[i++] = '-';
 
     do {
         str[k--] = digits[val % base];
         val /= base;
     } while (val != 0);
 
-    i = 32 - k;
-    j = 32;
+    i += 32 - k;
     str[i--] = '\0';
     while (i >= 0)
         str[i--] = str[j--];
