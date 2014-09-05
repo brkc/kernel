@@ -24,38 +24,38 @@ enum {
 
 #define CRTPORT 0x3d4
 
-uchar
-crt_read(uchar index)
+u8
+crt_read(u8 index)
 {
     outb(CRTPORT, index);
     return inb(CRTPORT + 1);
 }
 
 void
-crt_write(uchar index, uchar data)
+crt_write(u8 index, u8 data)
 {
     outb(CRTPORT, index);
     outb(CRTPORT + 1, data);
 }
 
 void
-cursor_move(ushort offset)
+cursor_move(u16 offset)
 {
     crt_write(14, offset >> 8);
     crt_write(15, offset);
 }
 
-ushort
+u16
 cursor_address(void)
 {
     return crt_read(14) << 8 | crt_read(15);
 }
 
 void
-putc(uchar c)
+putc(u8 c)
 {
-    ushort *video = (ushort *) 0xb8000;
-    ushort offset = cursor_address();
+    u16 *video = (u16 *) 0xb8000;
+    u16 offset = cursor_address();
 
     video[offset] = c | Attr;
     cursor_move(offset + 1);
@@ -93,7 +93,7 @@ printf(const char *fmt, ...)
 {
     const char *p;
     char buf[33];
-    uint *argp = (uint *) &fmt + 1;
+    u32 *argp = (u32 *) &fmt + 1;
 
     for (p = fmt; *p; p++) {
         if (*p != '%') {

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "x86.h"
 
-extern uchar _start[];
+extern u8 _start[];
 
 int
 cmain(void)
