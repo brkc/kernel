@@ -2,9 +2,10 @@ CC = cc
 LD = ld
 CFLAGS = -g -m32 -ffreestanding -nostdlib
 LDFLAGS = -lgcc
+OBJS = multiboot.o kernel.o console.o
 
-kernel.iso: multiboot.o kernel.o console.o
-	$(LD) -melf_i386 -Ttext=0x100000 -o boot/kernel kernel.o multiboot.o console.o
+kernel.iso: $(OBJS)
+	$(LD) -melf_i386 -Ttext=0x100000 -o boot/kernel $(OBJS)
 	rm -f kernel.iso
 	grub-mkrescue -o kernel.iso .
 
