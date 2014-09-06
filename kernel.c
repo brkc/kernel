@@ -3,7 +3,7 @@
 #include "x86.h"
 
 extern u8 _start[];
-extern u8 end[];
+extern u8 _end[];
 
 int
 cmain(u32 magic, multiboot_info_t *info)
@@ -12,7 +12,7 @@ cmain(u32 magic, multiboot_info_t *info)
 
     cursor_move(0);
     printf("kernel loaded at 0x%x\n", _start);
-    printf("kernel end at 0x%x\n", end);
+    printf("kernel end at 0x%x\n", _end);
 
     p = info->mmap_addr;
     while (p < info->mmap_addr + info->mmap_length) {
