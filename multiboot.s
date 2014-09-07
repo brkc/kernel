@@ -17,7 +17,7 @@ _start:
 	mov $(stack + STACK_SIZE), %esp
 	push %ebx
 	push %eax
-	call cmain
+	call kmain
 
 hang:
 	cli

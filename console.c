@@ -52,7 +52,7 @@ cursor_address(void)
 }
 
 void
-putc(u8 c)
+kputc(u8 c)
 {
     u16 *video = (u16 *) 0xb8000;
     u16 offset = cursor_address();
@@ -66,10 +66,10 @@ putc(u8 c)
 }
 
 void
-puts(const char *s)
+kputs(const char *s)
 {
     while (*s)
-        putc(*s++);
+        kputc(*s++);
 }
 
 int
@@ -96,7 +96,7 @@ itoa(int sval, char *str, int base)
 }
 
 void
-printf(const char *fmt, ...)
+kprintf(const char *fmt, ...)
 {
     const char *p;
     char buf[33];
@@ -104,37 +104,37 @@ printf(const char *fmt, ...)
 
     for (p = fmt; *p; p++) {
         if (*p != '%') {
-            putc(*p);
+            kputc(*p);
             continue;
         }
         *p++;
         switch (*p) {
             case 'd':
                 itoa(*(int *) argp++, buf, 10);
-                puts((char *) buf);
+                kputs((char *) buf);
                 break;
             case 's':
-                puts(*(char **) argp++);
+                kputs(*(char **) argp++);
                 break;
             case 'x':
                 itoa(*(int *) argp++, buf, 16);
-                puts((char *) buf);
+                kputs((char *) buf);
                 break;
             default:
-                putc('%');
-                putc(*p);
+                kputc('%');
+                kputc(*p);
                 break;
         }
     }
 }
 
 void
-cls(void)
+kcls(void)
 {
     int i;
 
     cursor_move(0);
     for (i = 0; i < 80 * 24; i++)
-        putc(' ');
+        kputc(' ');
     cursor_move(0);
 }
