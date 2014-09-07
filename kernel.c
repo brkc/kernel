@@ -11,8 +11,8 @@ cmain(u32 magic, multiboot_info_t *info)
     u32 p;
 
     cursor_move(0);
-    printf("kernel loaded at 0x%x\n", _start);
-    printf("kernel end at 0x%x\n", _end);
+    printf("kernel begins at 0x%x\n", _start);
+    printf("kernel ends at 0x%x\n", _end);
 
     p = info->mmap_addr;
     while (p < info->mmap_addr + info->mmap_length) {
