@@ -1,5 +1,4 @@
-#include "types.h"
-#include "x86.h"
+#include "kernel.h"
 
 enum {
     Black,

@@ -1,5 +1,4 @@
-#include "types.h"
-#include "vm.h"
+#include "kernel.h"
 
 typedef struct {
     void *next;

@@ -1,7 +1,5 @@
 #include "multiboot.h"
-#include "types.h"
-#include "x86.h"
-#include "vm.h"
+#include "kernel.h"
 
 extern u8 _start[];
 extern u8 _end[];
