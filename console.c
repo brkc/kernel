@@ -127,3 +127,14 @@ printf(const char *fmt, ...)
         }
     }
 }
+
+void
+cls(void)
+{
+    int i;
+
+    cursor_move(0);
+    for (i = 0; i < 80 * 24; i++)
+        putc(' ');
+    cursor_move(0);
+}
