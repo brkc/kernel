@@ -2,7 +2,7 @@ CC = cc
 LD = ld
 CFLAGS = -g -m32 -ffreestanding -nostdlib
 LDFLAGS = -lgcc
-OBJS = multiboot.o kernel.o console.o physmem.o
+OBJS = multiboot.o kernel.o console.o physmem.o mmu.o
 
 kernel.iso: $(OBJS)
 	$(LD) -melf_i386 -Ttext=0x100000 -o boot/kernel $(OBJS)

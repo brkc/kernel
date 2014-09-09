@@ -1,6 +1,7 @@
 #include "multiboot.h"
 #include "kernel.h"
 
+extern u8 _head[];
 extern u8 _start[];
 extern u8 _end[];
 
@@ -8,10 +9,12 @@ int
 kmain(u32 magic, multiboot_info_t *info)
 {
     u32 p;
-    int i;
+    void *pgdir;
+    u8 *addr;
 
     cursor_move(0);
-    kprintf("kernel begins at 0x%x\n", _start);
+    kprintf("kernel begins at 0x%x\n", _head);
+    kprintf("kernel loaded at 0x%x\n", _start);
     kprintf("kernel ends at 0x%x\n", _end);
 
     p = info->mmap_addr;
@@ -21,11 +24,17 @@ kmain(u32 magic, multiboot_info_t *info)
         kprintf("addr %x len %d\n", addr, len);
         p += size + sizeof size;
     }
+
     physinit(_end, 8 * 1048576);
-    for (i = 0; i < 5; i++) {
-        void *p = physalloc1();
-        kprintf("allocd addr %x\n", p);
-    }
+    pgdir = physalloc1();
+    kinit0(pgdir);
+    for (addr = _head; addr < _end; addr += PAGE_SIZE)
+        kmap0(pgdir, addr, addr);
+    kmap0(pgdir, 0xb8000, 0xb8000);
+
+    setcr3((u32) pgdir);
+    setcr0(getcr0() | CR0_PG);
+
     kprintf("ok\n");
     return 0;
 }

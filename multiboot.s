@@ -7,7 +7,8 @@
 
 .balign 4
 .text
-header:
+.globl _head
+_head:
 	.long MAGIC
 	.long FLAGS
 	.long CHECKSUM
