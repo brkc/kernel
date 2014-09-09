@@ -57,7 +57,10 @@ kputc(u8 c)
     u16 offset = cursor_address();
 
     if (c == '\n') {
-        cursor_move((offset + 79) / 80 * 80);
+        do
+            video[offset++] = ' ' | Attr;
+        while (offset % 80);
+        cursor_move(offset);
         return;
     }
     video[offset] = c | Attr;
