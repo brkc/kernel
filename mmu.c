@@ -53,15 +53,3 @@ kunmap(void *dir0, void *virt0)
         tab[v.ptx] = 0x0;
     dir[v.pdx] = 0x0;
 }
-
-void
-kinitvm(void *dir0)
-{
-    u32 *dir = dir0;
-    int i;
-
-    for (i = 0; i < 0x400; i++)
-        dir[i] = 0x0;
-
-    //kprintf("created pgdir at %x\n", dir0);
-}

@@ -27,6 +27,7 @@ kmain(u32 magic, multiboot_info_t *info)
 
     kinit(_end, 8 * 1048576);
     pgdir = kalloc0();
+    //kprintf("created pgdir at %x\n", pgdir);
     for (addr = _head; addr < _end; addr += PAGE_SIZE)
         kmap(pgdir, addr, addr);
     kmap(pgdir, 0xb8000, 0xb8000);
