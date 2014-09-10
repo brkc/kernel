@@ -30,48 +30,50 @@ pgtab_alloc(void)
 }
 
 void
-kmap0(void *pgdir0, void *virt0, void *phys0)
+kmap0(void *dir0, void *virt0, void *phys0)
 {
     struct virt v;
-    u32 **pgdir = pgdir0;
-    u32 *pgtab;
+    u32 **dir = dir0;
+    u32 *tab;
     //kprintf("mapping %x to %x\n", virt0, phys0);
 
     translate(&v, virt0);
-    if (!present(pgdir[v.pdx])) {
-        pgtab = pgtab_alloc();
-        while (present(pgtab))
-            pgtab++;
-        pgdir[v.pdx] = (u32 *) ((u32) pgtab | 0x3);
-        //kprintf("created pgdir entry %d at %x -> %x\n", v.pdx, pgdir + v.pdx, pgdir[v.pdx]);
+    if (!present(dir[v.pdx])) {
+        tab = pgtab_alloc();
+        while (present(tab))
+            tab++;
+        dir[v.pdx] = (u32 *) ((u32) tab | 0x3);
+        //kprintf("created pgdir entry %d at %x -> %x\n", v.pdx, dir + v.pdx,
+                  //dir[v.pdx]);
     }
 
-    pgtab[v.ptx] |= (u32) phys0 | 0x3;
-    //kprintf("created pgtab entry %d at %x -> %x\n", v.ptx, pgtab + v.ptx, pgtab[v.ptx]);
+    tab[v.ptx] |= (u32) phys0 | 0x3;
+    //kprintf("created pgtab entry %d at %x -> %x\n", v.ptx, tab + v.ptx,
+              //tab[v.ptx]);
 }
 
 void
-kunmap(void *pgdir0, void *virt0)
+kunmap(void *dir0, void *virt0)
 {
     struct virt v;
-    u32 **pgdir = pgdir0;
-    u32 *pgtab;
+    u32 **dir = dir0;
+    u32 *tab;
     kprintf("unmapping %x\n", virt0);
 
     translate(&v, virt0);
-    if (present(pgdir[v.pdx]))
-        pgtab[v.ptx] = 0x0;
-    pgdir[v.pdx] = 0x0;
+    if (present(dir[v.pdx]))
+        tab[v.ptx] = 0x0;
+    dir[v.pdx] = 0x0;
 }
 
 void
-kinit0(void *start0)
+kinit0(void *dir0)
 {
-    u32 *pgtab = start0;
+    u32 *dir = dir0;
     int i;
 
     for (i = 0; i < 0x400; i++)
-        pgtab[i] = 0x0;
+        dir[i] = 0x0;
 
-    //kprintf("created pgdir at %x\n", start0);
+    //kprintf("created pgdir at %x\n", dir0);
 }
