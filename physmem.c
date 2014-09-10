@@ -6,7 +6,7 @@ typedef struct {
 list *head = 0;
 
 void
-physfree(void *addr0)
+kfree(void *addr0)
 {
     u32 addr = (u32) addr0;
     u32 align = PAGE_ROUNDUP(addr);
@@ -17,7 +17,7 @@ physfree(void *addr0)
 }
 
 void
-physinit(void *addr0, u32 n)
+kinit(void *addr0, u32 n)
 {
     u32 addr = (u32) addr0;
     u32 align = PAGE_ROUNDUP(addr);
@@ -29,16 +29,28 @@ physinit(void *addr0, u32 n)
     end = p + n;
 
     while (p < end) {
-        physfree(p);
+        kfree(p);
         p += 0x1000;
     }
 }
 
 void *
-physalloc1(void)
+kalloc(void)
 {
     list *p = head;
     if (p)
         head = p->next;
     return p;
+}
+
+void *
+kalloc0(void)
+{
+    u8 *tab = kalloc();
+    int i;
+
+    for (i = 0; i < PAGE_SIZE; i++)
+        tab[i] = 0x0;
+
+    return tab;
 }

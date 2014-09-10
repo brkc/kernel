@@ -17,20 +17,8 @@ present(void *entry)
     return (u32) entry & 0x1;
 }
 
-void *
-pgtab_alloc(void)
-{
-    u32 *pgtab = physalloc1();
-    int i;
-
-    for (i = 0; i < 0x400; i++)
-        pgtab[i] = 0x0;
-    
-    return pgtab;
-}
-
 void
-kmap0(void *dir0, void *virt0, void *phys0)
+kmap(void *dir0, void *virt0, void *phys0)
 {
     struct virt v;
     u32 **dir = dir0;
@@ -39,7 +27,7 @@ kmap0(void *dir0, void *virt0, void *phys0)
 
     translate(&v, virt0);
     if (!present(dir[v.pdx])) {
-        tab = pgtab_alloc();
+        tab = kalloc0();
         while (present(tab))
             tab++;
         dir[v.pdx] = (u32 *) ((u32) tab | 0x3);
@@ -67,7 +55,7 @@ kunmap(void *dir0, void *virt0)
 }
 
 void
-kinit0(void *dir0)
+kinitvm(void *dir0)
 {
     u32 *dir = dir0;
     int i;

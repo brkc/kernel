@@ -25,12 +25,11 @@ kmain(u32 magic, multiboot_info_t *info)
         p += size + sizeof size;
     }
 
-    physinit(_end, 8 * 1048576);
-    pgdir = physalloc1();
-    kinit0(pgdir);
+    kinit(_end, 8 * 1048576);
+    pgdir = kalloc0();
     for (addr = _head; addr < _end; addr += PAGE_SIZE)
-        kmap0(pgdir, addr, addr);
-    kmap0(pgdir, 0xb8000, 0xb8000);
+        kmap(pgdir, addr, addr);
+    kmap(pgdir, 0xb8000, 0xb8000);
 
     setcr3((u32) pgdir);
     setcr0(getcr0() | CR0_PG);
