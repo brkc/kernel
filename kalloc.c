@@ -1,14 +1,13 @@
 #include "kernel.h"
 
-typedef struct {
+struct list {
     void *next;
-} list;
-list *head = 0;
+} *head = 0;
 
 void
 kfree(void *addr0)
 {
-    list *node = addr0;
+    struct list *node = addr0;
 
     node->next = head;
     head = node;
@@ -29,7 +28,7 @@ kinit(void *addr0, u32 n)
 void *
 kalloc(void)
 {
-    list *p = head;
+    struct list *p = head;
     if (p)
         head = p->next;
     return p;
