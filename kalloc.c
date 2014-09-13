@@ -22,7 +22,7 @@ kinit(void *addr0, u32 n)
 
     for (i=0; i<n; i++) {
         kfree(p);
-        p = p + PAGE_SIZE;
+        p += PAGE_SIZE;
     }
 }
 
