@@ -1,8 +1,9 @@
 #include "x86.h"
 
 #define PAGE_SIZE 4096
-#define PAGE_ROUNDDOWN(x) ((x) & -(PAGE_SIZE))
-#define PAGE_ROUNDUP(x) PAGE_ROUNDDOWN((x) + ((PAGE_SIZE) - 1))
+#define PAGE_MASK ((PAGE_SIZE) - 1)
+#define PAGE_ROUND_DOWN(x) (((u32) (x) & ~(PAGE_MASK)))
+#define PAGE_ROUND_UP(x) PAGE_ROUND_DOWN((x) + (PAGE_MASK))
 
 void cursor_move(u16 offset);
 void kputc(u8 c);

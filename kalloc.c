@@ -8,9 +8,7 @@ list *head = 0;
 void
 kfree(void *addr0)
 {
-    u32 addr = (u32) addr0;
-    u32 align = PAGE_ROUNDUP(addr);
-    list *node = (list *) align;
+    list *node = addr0;
 
     node->next = head;
     head = node;
@@ -19,18 +17,12 @@ kfree(void *addr0)
 void
 kinit(void *addr0, u32 n)
 {
-    u32 addr = (u32) addr0;
-    u32 align = PAGE_ROUNDUP(addr);
-    u8 *p = (u8 *) align;
-    u8 *end;
+    u8 *p = addr0;
+    u32 i;
 
-    n -= align - addr;
-    n = PAGE_ROUNDUP(n);
-    end = p + n;
-
-    while (p < end) {
+    for (i=0; i<n; i++) {
         kfree(p);
-        p += 0x1000;
+        p = p + PAGE_SIZE;
     }
 }
 

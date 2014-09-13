@@ -25,7 +25,7 @@ kmain(u32 magic, multiboot_info_t *info)
         p += size + sizeof size;
     }
 
-    kinit(_end, 8 * 1048576);
+    kinit((void *) PAGE_ROUND_UP(_end), 2048);
     pgdir = kalloc0();
     //kprintf("created pgdir at %x\n", pgdir);
     for (addr = _head; addr < _end; addr += PAGE_SIZE)
