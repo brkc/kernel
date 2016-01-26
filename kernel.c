@@ -30,7 +30,7 @@ kmain(u32 magic, multiboot_info_t *info)
     //kprintf("created pgdir at %x\n", pgdir);
     for (addr = _head; addr < _end; addr += PAGE_SIZE)
         kmap(pgdir, addr, addr);
-    kmap(pgdir, 0xb8000, 0xb8000);
+    kmap(pgdir, (void *) 0xb8000, (void *) 0xb8000);
 
     setcr3((u32) pgdir);
     setcr0(getcr0() | CR0_PG);

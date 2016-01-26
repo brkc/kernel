@@ -14,3 +14,4 @@ void kfree(void *addr0);
 void kinit(void *addr0, u32 n);
 void *kalloc(void);
 void *kalloc0(void);
+void kmap(void *dir0, void *virt0, void *phys0);
